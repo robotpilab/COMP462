@@ -88,7 +88,7 @@ class KinodynamicRRT(object):
     def solve(self, time_budget):
         """
         The main algorithm of Kinodynamic RRT.
-        args:  time_budget: The planning time budget.
+        args:  time_budget: The planning time budget (in seconds).
         returns: is_solved: True or False.
                       plan: The motion plan found by the planner,
                             represented by a sequence of tree nodes.

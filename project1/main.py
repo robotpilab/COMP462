@@ -35,11 +35,11 @@ if __name__ == "__main__":
         wpts = panda_sim.execute(ctrl)
         err_pos = np.mean(np.linalg.norm(wpts[:, 0:2] - wpts_ref[:, 0:2], axis=1))
         err_orn = np.mean(np.abs(wpts[:, 2] - wpts_ref[:, 2]))
-        print("The average waypoint error for executing the last control:")
+        print("The average Cartesian error for executing the last control:")
         print("Position: %f meters\t Orientation: %f rads" % (err_pos, err_orn))
         errs.append([err_pos, err_orn])
     errs = np.array(errs)
-    print("\nThe average waypoint error for the entire exeution:")
+    print("\nThe average Cartesian error for the entire exeution:")
     print("Position: %f meters\t Orientation: %f rads" % (errs[:, 0].mean(), errs[:, 1].mean()))
 
 
