@@ -7,7 +7,7 @@ import time
 
 ########## Task 1: Grasp Quality Evaluation ##########
 
-def primitive_wrenches(mesh, grasp, mu=0.2, n_faces=8):
+def primitive_wrenches(mesh, grasp, mu=0.2, n_edges=8):
     """
     Find the primitive wrenches for each contact of a grasp.
     args:   mesh: The object mesh model.
@@ -16,19 +16,19 @@ def primitive_wrenches(mesh, grasp, mu=0.2, n_faces=8):
                   Type: list of int
               mu: The friction coefficient of the mesh surface.
                   (default: 0.2)
-         n_faces: The number of faces of the friction polyhedral cone.
+         n_edges: The number of edges of the friction polyhedral cone.
                   Type: int (default: 8)
     returns:   W: The primitive wrenches.
-                  Type: numpy.ndarray of shape (len(grasp) * n_faces, 6)
+                  Type: numpy.ndarray of shape (len(grasp) * n_edges, 6)
     """
     ########## TODO ##########
-    W = np.zeros(shape=(len(grasp) * n_faces, 6))
+    W = np.zeros(shape=(len(grasp) * n_edges, 6))
     
 
     ##########################
     return W
 
-def eval_Q(mesh, grasp, mu=0.2, n_faces=8, lmbd=0.5):
+def eval_Q(mesh, grasp, mu=0.2, n_edges=8, lmbd=1.0):
     """
     Evaluate the L1 quality of a grasp.
     args:   mesh: The object mesh model.
@@ -37,10 +37,10 @@ def eval_Q(mesh, grasp, mu=0.2, n_faces=8, lmbd=0.5):
                   Type: list of int
               mu: The friction coefficient of the mesh surface.
                   (default: 0.2)
-         n_faces: The number of faces of the friction polyhedral cone.
+         n_edges: The number of edges of the friction polyhedral cone.
                   Type: int (default: 8)
             lmbd: The scale of torque magnitude.
-                  (default: 0.5)
+                  (default: 1.0)
     returns:   Q: The L1 quality score of the given grasp.
     """
     ########## TODO ##########

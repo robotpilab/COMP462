@@ -26,7 +26,7 @@ if __name__ == "__main__":
 
     # Task 1: Grasp Quality Evaluation 
     if args.task == 1:
-        grasp = np.random.choice(np.arange(len(mesh.faces)), size=3, replace=False)
+        grasp = [81, 267, 480]
         print("The grasp:", grasp)
         con_pts = utils.get_centroid_of_triangles(mesh, grasp)
         print("The contact points of the given grasp:")
@@ -47,8 +47,7 @@ if __name__ == "__main__":
 
     # Task 3: Optimize the Given Grasp
     elif args.task == 3:
-        #grasp, _ = alg.sample_stable_grasp(mesh)
-        grasp = np.random.choice(np.arange(len(mesh.faces)), size=3, replace=False)
+        grasp = [80, 165, 444]
         traj = alg.optimize_grasp(mesh, grasp)
         print("The quality of the given initial grasp: %f" % alg.eval_Q(mesh, traj[0]))
         print("The quality of the optimized grasp: %f" % alg.eval_Q(mesh, traj[-1]))
