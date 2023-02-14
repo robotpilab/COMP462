@@ -26,7 +26,7 @@ if __name__ == "__main__":
 
     # Task 1: Grasp Quality Evaluation 
     if args.task == 1:
-        grasp = [81, 267, 480]
+        grasp = [0, 249, 484]
         print("The grasp:", grasp)
         con_pts = utils.get_centroid_of_triangles(mesh, grasp)
         print("The contact points of the given grasp:")
@@ -37,7 +37,7 @@ if __name__ == "__main__":
     
     # Task 2: Sample a Stable Grasp
     elif args.task == 2:
-        grasp, Q = alg.sample_stable_grasp(mesh)
+        grasp, Q = alg.sample_stable_grasp(mesh, thresh=0.01)
         print("The grasp:", grasp)
         con_pts = utils.get_centroid_of_triangles(mesh, grasp)
         print("The contact points of the stable grasp:")
