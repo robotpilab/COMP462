@@ -12,7 +12,7 @@ If you haven't created the above environment in you system. Please download and 
 conda create --name comp462 python=3.9 numpy
 ```
 
-## 2. Install the [trimesh]([https://pybullet.org/wordpress/](https://trimsh.org/)) and [SciPy](https://scipy.org/) modules
+## 2. Install the [trimesh](https://trimsh.org/) and [SciPy](https://scipy.org/) modules
 
 In your active Conda environment, run:
 
