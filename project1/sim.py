@@ -28,7 +28,7 @@ SimTimeStep = 1./240. # the time step of the simulator
 
 class PandaSim(object):
   """
-  The simulatio environment of the 7-DoF Franka Panda robot based on pybullet.
+  The simulation environment of the 7-DoF Franka Panda robot based on pybullet.
   """
 
   def __init__(self, bullet_client):
@@ -222,7 +222,7 @@ class PandaSim(object):
     Get the jacobian matrix of the robot at the query joint values,
     by the student's implemented jacobian solver.
     returns: The jacobian matrix
-             Type: numpy.ndarray of shape ()
+             Type: numpy.ndarray of shape (6, 7)
     """
     return self.jac_solver.get_jacobian_matrix(joint_values)
 
