@@ -13,6 +13,7 @@ if __name__ == "__main__":
   parser = argparse.ArgumentParser()
   parser.add_argument("--task", type=int, choices=[1, 2, 3])
   parser.add_argument("--sigma", type=float, default=0.05)
+  parser.add_argument("--delta", type=float, default=0.01)
   parser.add_argument("--num_particles", type=int, default=1000)
   args = parser.parse_args()
 
@@ -45,7 +46,7 @@ if __name__ == "__main__":
     bullet_client.resetSimulation()
     bullet_client.setGravity(0, 0, 0)
     panda_sim = sim.PandaSim(bullet_client, loc=loc_gt)
-    est = alg.particle_filter(panda_sim, obvs, args.num_particles, sigma=args.sigma)
+    est = alg.particle_filter(panda_sim, obvs, args.num_particles, sigma=args.sigma, delta=args.delta)
     print("Estimate by Particle Filtering:", est)
 
   # Task 3: Particle Filtering with Online Observation Generation
@@ -58,6 +59,6 @@ if __name__ == "__main__":
     bullet_client.resetSimulation()
     bullet_client.setGravity(0, 0, 0)
     panda_sim = sim.PandaSim(bullet_client, loc=loc_gt)
-    est = alg.particle_filter_online(panda_sim, args.num_particles, sigma=args.sigma)
+    est = alg.particle_filter_online(panda_sim, args.num_particles, sigma=args.sigma, delta=args.delta)
     print("Estimate by Particle Filtering:", est)
 

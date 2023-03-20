@@ -69,7 +69,7 @@ def most_likely_particle(particles, obv):
 
 ########## Task 2: Particle Filter ##########
 
-def particle_filter(panda_sim, obvs, num_particles, sigma=0.05):
+def particle_filter(panda_sim, obvs, num_particles, sigma=0.05, delta=0.01):
     """
     The Particle Filtering algorithm. 
     args:    panda_sim: The instance of the simulation. 
@@ -80,6 +80,8 @@ def particle_filter(panda_sim, obvs, num_particles, sigma=0.05):
                         Type: int
                  sigma: The standard deviation of the Gaussian distribution
                         for calculating likelihood (default: 0.05).
+                 delta: The scale of the Gaussian for perturbing particles.
+                        (default: 0.01)
     returns:       est: The estimate of the pose of the robot base. 
                         Type: numpy.ndarray of shape (3,)
     """
@@ -127,7 +129,7 @@ def get_one_obv(panda_sim):
     ##########################
     return obv
 
-def particle_filter_online(panda_sim, num_particles, sigma=0.05):
+def particle_filter_online(panda_sim, num_particles, sigma=0.05, delta=0.01):
     """
     The online Particle Filtering algorithm. 
     args:     panda_sim: The instance of the simulation. 
@@ -136,6 +138,8 @@ def particle_filter_online(panda_sim, num_particles, sigma=0.05):
                          Type: int
                   sigma: The standard deviation of the Gaussian distribution
                          for calculating likelihood (default: 0.05).
+                  delta: The scale of the Gaussian for perturbing particles.
+                         (default: 0.01)
     returns:        est: The estimate of the pose of the robot base. 
                          Type: numpy.ndarray of shape (3,)
     """
