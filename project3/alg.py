@@ -54,8 +54,8 @@ def most_likely_particle(particles, obv):
     Find the most likely particle.
     args:  particles: The particles represented by their states
                       Type: numpy.ndarray of shape (# of particles, 3)
-                 obv: The given observation (the robot's joint angles). 
-                      Type: numpy.ndarray of shape (7,)
+             weights: The weights of all particles.
+                      Type: numpy.ndarray of shape (# of particles,)
     returns:     idx: The index of the most likely particle
                       Type: int
     """
