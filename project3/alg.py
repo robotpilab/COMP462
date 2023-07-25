@@ -69,7 +69,7 @@ def most_likely_particle(particles, obv):
 
 ########## Task 2: Particle Filter ##########
 
-def particle_filter(panda_sim, obvs, num_particles, sigma=0.05, delta=0.01):
+def particle_filter(panda_sim, obvs, num_particles, sigma=0.05, delta=0.01, plot=True):
     """
     The Particle Filtering algorithm. 
     args:    panda_sim: The instance of the simulation. 
@@ -82,6 +82,7 @@ def particle_filter(panda_sim, obvs, num_particles, sigma=0.05, delta=0.01):
                         for calculating likelihood (default: 0.05).
                  delta: The scale of the Gaussian for perturbing particles.
                         (default: 0.01)
+                  plot: Whether to enable particle plot (True or False).
     returns:       est: The estimate of the pose of the robot base. 
                         Type: numpy.ndarray of shape (3,)
     """
@@ -90,9 +91,10 @@ def particle_filter(panda_sim, obvs, num_particles, sigma=0.05, delta=0.01):
     weights = np.ones(shape=(num_particles,)) / num_particles
 
     # configure the visualization
-    ax = utils.config_plot_ax()
-    utils.plot_pf(ax, particles, panda_sim.loc)
-    plt.pause(0.01)
+    if plot:
+        ax = utils.config_plot_ax()
+        utils.plot_pf(ax, particles, panda_sim.loc)
+        plt.pause(0.01)
 
     for obv in obvs:
         panda_sim.set_joint_values(obv)
@@ -104,9 +106,9 @@ def particle_filter(panda_sim, obvs, num_particles, sigma=0.05, delta=0.01):
         ##########################
 
         # plot the particles in the visualization
-        utils.plot_pf(ax, particles, panda_sim.loc)
-        plt.pause(0.01)
-    plt.show()
+        if plot:
+            utils.plot_pf(ax, particles, panda_sim.loc)
+            plt.pause(0.01)
     est = particles.mean(0)
     return est
 
@@ -129,7 +131,7 @@ def get_one_obv(panda_sim):
     ##########################
     return obv
 
-def particle_filter_online(panda_sim, num_particles, sigma=0.05, delta=0.01):
+def particle_filter_online(panda_sim, num_particles, sigma=0.05, delta=0.01, plot=True):
     """
     The online Particle Filtering algorithm. 
     args:     panda_sim: The instance of the simulation. 
@@ -140,6 +142,7 @@ def particle_filter_online(panda_sim, num_particles, sigma=0.05, delta=0.01):
                          for calculating likelihood (default: 0.05).
                   delta: The scale of the Gaussian for perturbing particles.
                          (default: 0.01)
+                   plot: Whether to enable particle plot (True or False).
     returns:        est: The estimate of the pose of the robot base. 
                          Type: numpy.ndarray of shape (3,)
     """
@@ -148,9 +151,10 @@ def particle_filter_online(panda_sim, num_particles, sigma=0.05, delta=0.01):
     weights = np.ones(shape=(num_particles,)) / num_particles
 
     # configure the visualization
-    ax = utils.config_plot_ax()
-    utils.plot_pf(ax, particles, panda_sim.loc)
-    plt.pause(0.01)
+    if plot:
+        ax = utils.config_plot_ax()
+        utils.plot_pf(ax, particles, panda_sim.loc)
+        plt.pause(0.01)
 
     ########## TODO ##########
     num_iters = 100 # The number of iterations. Feel free to change the value
@@ -160,9 +164,10 @@ def particle_filter_online(panda_sim, num_particles, sigma=0.05, delta=0.01):
 
         
 
-        # plot the particles in the visualization 
-        utils.plot_pf(ax, particles, panda_sim.loc)
-        plt.pause(0.01)
+        # plot the particles in the visualization
+        if plot: 
+            utils.plot_pf(ax, particles, panda_sim.loc)
+            plt.pause(0.01)
     ##########################
     est = particles.mean(0)
     return est

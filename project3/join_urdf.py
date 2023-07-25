@@ -49,6 +49,7 @@ if __name__ == "__main__":
 
     pgui.configureDebugVisualizer(pgui.COV_ENABLE_RENDERING, 1)
 
-    while (pgui.isConnected()):
+    st = time.time()
+    while (pgui.isConnected()) and (time.time() - st < 2.0):
         pgui.getCameraImage(320, 200, renderer=pgui.ER_BULLET_HARDWARE_OPENGL)
         time.sleep(1. / 240.)
