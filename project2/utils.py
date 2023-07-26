@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 
-
 def get_centroid_of_triangles(mesh, tr_ids):
     """
     Calculate the centroids of the triangles.
@@ -21,6 +20,41 @@ def get_centroid_of_triangles(mesh, tr_ids):
     cen = np.array(centroids)
     return cen
 
+def check_wrenches(mesh, grasp, W, n_edges=8):
+    """
+    Check whether the wrench calculation is correct or not.
+    args:   mesh: The object mesh model.
+                  Type: trimesh.base.Trimesh
+           grasp: The indices of the mesh triangles being contacted.
+                  Type: list of int  
+               W: The primitive wrenches.
+                  Type: numpy.ndarray of shape (len(grasp) * n_edges, 6)
+          n_edges: The number of edges of the friction polyhedral cone.
+                   Type: int (default: 8)  
+    """
+    f_success = 0
+    t_success = 0
+    con_pts = get_centroid_of_triangles(mesh, grasp)
+    cm = mesh.center_mass
+    for j in range(len(grasp)):
+        F = W[j*n_edges:(j+1)*n_edges, 0:3]
+        T = W[j*n_edges:(j+1)*n_edges, 3:6]
+        T_scaled = np.array([t / np.linalg.norm(t) for t in T])
+        n = mesh.face_normals[grasp[j]]
+        con_pt = con_pts[j]
+        f_sum = np.sum(F, axis=0)
+        print(np.sum(n * f_sum) / np.linalg.norm(f_sum))
+        if (np.sum(n * f_sum) / np.linalg.norm(f_sum) > 0.99):
+            f_success += 1
+        r = con_pt - cm
+        torq = np.cross(r, F)
+        torq_scaled = np.array([t / np.linalg.norm(t) for t in torq])
+        if (np.sum(np.linalg.norm(torq_scaled - T_scaled, axis=1)) < 1e-2):
+            t_success += 1
+    print("\n")
+    print("The correctness of the forces: ", f_success == len(grasp))
+    print("The correctness of the torques: ", t_success == len(grasp))
+    print("\n")
 
 def plot_mesh(mesh, show=True):
     fig = plt.figure(figsize=(10, 10))

@@ -5,7 +5,7 @@ import utils
 import time
 
 
-########## Task 1: Grasp Quality Evaluation ##########
+########## Task 1: Primitive Wrenches ##########
 
 def primitive_wrenches(mesh, grasp, mu=0.2, n_edges=8):
     """
@@ -27,6 +27,9 @@ def primitive_wrenches(mesh, grasp, mu=0.2, n_edges=8):
 
     ##########################
     return W
+
+
+########## Task 2: Grasp Quality Evaluation ##########
 
 def eval_Q(mesh, grasp, mu=0.2, n_edges=8, lmbd=1.0):
     """
@@ -51,7 +54,7 @@ def eval_Q(mesh, grasp, mu=0.2, n_edges=8, lmbd=1.0):
     return Q
 
 
-########## Task 2: Stable Grasp Sampling ##########
+########## Task 3: Stable Grasp Sampling ##########
 
 def sample_stable_grasp(mesh, thresh=0.0):
     """
@@ -74,7 +77,7 @@ def sample_stable_grasp(mesh, thresh=0.0):
     return grasp, Q
 
 
-########## Task 3: Grasp Optimization ##########
+########## Task 4: Grasp Optimization ##########
 
 def find_neighbors(mesh, tr_id, eta=1):
     """
@@ -133,7 +136,7 @@ def optimize_grasp(mesh, grasp):
     return traj
 
 
-########## Task 4: Grasp Optimization with Reachability ##########
+########## Task 5: Grasp Optimization with Reachability ##########
 
 def optimize_reachable_grasp(mesh, r=0.5):
     """
