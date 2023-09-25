@@ -40,7 +40,7 @@ class JacSolver(object):
                             Type: numpy.ndarray of shape (6, 7)
         """
         ########## TODO ##########
-        J = None
+        J = np.zeros(shape=(6, 7))
 
         
         ##########################

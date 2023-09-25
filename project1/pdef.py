@@ -51,6 +51,7 @@ class ProblemDefinition(object):
                          Type: sim.PandaSim
         """
         self.panda_sim = panda_sim
+        self.panda_sim.set_pdef(self)
         self.start_state = self.panda_sim.save_state()
         self.goal = None
         self.dim_state = sim.pandaNumDofs + 3 * self.panda_sim.num_objects # dimensionality of the state space
@@ -99,12 +100,26 @@ class ProblemDefinition(object):
         returns: Ture or False.
         """
         ########## TODO ##########
-        
+        return True
+
 
         ##########################
-        
+    
+    def is_state_high_quality(self, J):
+        """
+        Check if a state is high-quality enough or not for the task.
+        args: J: The Jacobian matrix of the robot at the query state.
+                 Type: numpy.ndarray of shape (6, 7)
+        returns: Ture or False
+        """
+        ########## TODO ##########
+        return True
+    
+
+        ##########################
+
     def propagate(self, nstate, control):
         self.panda_sim.restore_state(nstate)
-        self.panda_sim.execute(control)
+        valid = self.panda_sim.execute(control)
         state = self.panda_sim.save_state()
-        return state
+        return state, valid

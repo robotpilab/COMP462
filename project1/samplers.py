@@ -66,8 +66,8 @@ class ControlSampler(object):
         i = 0
         while (i < k):
             ctrl = np.random.uniform(self.low, self.high, self.dim)
-            pstate = self.pdef.propagate(nstate, ctrl)
-            if self.pdef.is_state_valid(pstate):
+            pstate, valid = self.pdef.propagate(nstate, ctrl)
+            if valid and self.pdef.is_state_valid(pstate):
                 dist = self.pdef.distance_func(pstate["stateVec"], rstateVec)
                 controls.append(ctrl)
                 pstates.append(pstate)

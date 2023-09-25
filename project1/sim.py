@@ -23,7 +23,7 @@ pandaStartJoints = [0.3360771289431801, 0.33773759795964864, 0.4331145290389591,
                     -2.726785252069466, -0.9315032963941317, 2.962324195138054,
                     2.46586065658275] # start joint angles of the robot
 
-SimTimeStep = 1./240. # the time step of the simulator
+SimTimeStep = 1./60. # the time step of the simulator
 
 
 class PandaSim(object):
@@ -65,6 +65,7 @@ class PandaSim(object):
     self.num_obstacles = 0
     
     self.jac_solver = jac.JacSolver() # The jacobian solver for the robot
+    self.pdef = None # task-specific ProblemDefinition
 
   def add_box(self, halfExtents, rgbaColor, pos):
     colBoxID = self.bullet_client.createCollisionShape(self.bullet_client.GEOM_BOX,
@@ -95,6 +96,18 @@ class PandaSim(object):
 
   def reset(self):
     self.bullet_client.resetSimulation()
+
+  def set_pdef(self, pdef):
+    """
+    Set the Problem Definition.
+    """
+    self.pdef = pdef
+
+  def get_pdef(self):
+    """
+    Get the Problem Definition.
+    """
+    return self.pdef
 
   def save_state(self):
     """
@@ -167,32 +180,45 @@ class PandaSim(object):
                       (you don’t need to worry about this parameter)
     returns:    wpts: Intermediate waypoints of the Cartesian trajectory in the 2D space.
                       Type: numpy.ndarray of shape (number of waypoints, 3)
+               valid: True or False, indicating whether all intermediate 
+                      states are valid and high-quality.
     """
+    valid = True
     wpts = np.empty(shape=(0, 3))
     d = ctrl[3] # duration
     vx = np.array([ctrl[0], ctrl[1], 0, 0, 0, ctrl[2]]) # desired twist of the end-effector
     
     n_steps = int(d / SimTimeStep)
-    for _ in range(n_steps):
+    for i in range(n_steps):
 
       ########## TODO ##########
-      vq = None
+      J = np.zeros(shape=(6, 7)) # Jacobian matrix
+      vq = np.zeros(shape=(7,)) # joint velocities
 
 
       ##########################
+
+      if not self.pdef.is_state_high_quality(J):
+        valid = False
+        break
 
       self.bullet_client.setJointMotorControlArray(self.panda,
                                                    range(pandaNumDofs),
                                                    self.bullet_client.VELOCITY_CONTROL,
                                                    targetVelocities=vq)
-      self.open_gripper()
       self.step()
+
+      if (i + 1) % 12 == 0: # check for every 0.2 second
+        if not self.pdef.is_state_valid(self.save_state()):
+          valid = False
+          break
+
       pos_ee, quat_ee = self.get_ee_pose()
       euler_ee = self.bullet_client.getEulerFromQuaternion(quat_ee)
       wpt = np.array([pos_ee[0], pos_ee[1], euler_ee[2] % (2 * np.pi)])
       wpts = np.vstack((wpts, wpt.reshape(1, -1)))
       time.sleep(sleep_time)
-    return wpts
+    return wpts, valid
 
   def get_joint_states(self):
     """
