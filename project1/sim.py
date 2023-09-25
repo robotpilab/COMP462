@@ -185,6 +185,7 @@ class PandaSim(object):
                                                    range(pandaNumDofs),
                                                    self.bullet_client.VELOCITY_CONTROL,
                                                    targetVelocities=vq)
+      self.open_gripper()
       self.step()
       pos_ee, quat_ee = self.get_ee_pose()
       euler_ee = self.bullet_client.getEulerFromQuaternion(quat_ee)
