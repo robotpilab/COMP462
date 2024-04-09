@@ -59,11 +59,6 @@ class PandaSim(object):
     stateID = self.bullet_client.saveState()
     jpos, _, _ = self.get_joint_states()
     stateVec = jpos[0:pandaNumDofs]
-    for i in range(self.num_objects):
-      obj = self.objects[i]
-      pos, quat = self.bullet_client.getBasePositionAndOrientation(obj)
-      orn = self.bullet_client.getEulerFromQuaternion(quat)
-      stateVec = stateVec + [pos[0], pos[1], orn[2]]
     state = {"stateID": stateID, "stateVec": np.array(stateVec)}
     return state
 
